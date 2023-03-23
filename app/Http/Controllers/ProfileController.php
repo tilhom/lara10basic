@@ -33,6 +33,27 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function store(Request $request){
+        $id = $request->user()->id;
+        $data = $request->user();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->username = $request->username;
+
+        if ($request->file('profile_image')) {
+           $file = $request->file('profile_image');
+
+           $filename = date('YmdHi').$file->getClientOriginalName();
+           $file->move(public_path('upload/admin_images'),$filename);
+           $data['profile_image'] = $filename;
+        }
+        $data->save();
+
+        return redirect()->route('profile.view');
+
+    }// End Method
+
+   
     /**
      * Update the user's profile information.
      */
