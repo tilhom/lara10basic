@@ -44,10 +44,17 @@ class ProfileController extends Controller
            $file->move(public_path('upload/admin_images'),$filename);
            $request->user()->profile_image = $filename;
         }
-        
+
         $request->user()->save();
 
-        return redirect()->route('profile.view');
+        // return redirect()->route('profile.view');
+
+        $notification = array(
+            'message' => 'Admin Profile Updated Successfully', 
+            'alert-type' => 'info'
+        );
+
+        return redirect()->route('profile.view')->with($notification);
 
     }// End Method
 
