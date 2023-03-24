@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+
 class ProfileController extends Controller
 {
 
@@ -93,6 +96,26 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/login');
+    }
+
+    public function change_password(){
+
+        return view('profile.change_password');
+
+    }// End Method
+
+    public function update_password(Request $request)
+    {
+        // $validated = $request->validateWithBag('updatePassword', [
+        //     'current_password' => ['required', 'current_password'],
+        //     'password' => ['required', Password::defaults(), 'confirmed'],
+        // ]);
+
+        // $request->user()->update([
+        //     'password' => Hash::make($validated['password']),
+        // ]);
+
+        // return back()->with('status', 'password-updated');
     }
 }
