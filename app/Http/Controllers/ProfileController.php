@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\ProfileStoreRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,21 +34,18 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function store(Request $request){
-        $id = $request->user()->id;
-        $data = $request->user();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->username = $request->username;
+    public function store(ProfileStoreRequest $request){
+        $request->user()->fill($request->validated());
 
         if ($request->file('profile_image')) {
            $file = $request->file('profile_image');
 
            $filename = date('YmdHi').$file->getClientOriginalName();
            $file->move(public_path('upload/admin_images'),$filename);
-           $data['profile_image'] = $filename;
+           $request->user()->profile_image = $filename;
         }
-        $data->save();
+        
+        $request->user()->save();
 
         return redirect()->route('profile.view');
 
