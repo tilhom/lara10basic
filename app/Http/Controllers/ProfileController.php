@@ -107,15 +107,17 @@ class ProfileController extends Controller
 
     public function update_password(Request $request)
     {
-        // $validated = $request->validateWithBag('updatePassword', [
-        //     'current_password' => ['required', 'current_password'],
-        //     'password' => ['required', Password::defaults(), 'confirmed'],
-        // ]);
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
 
-        // $request->user()->update([
-        //     'password' => Hash::make($validated['password']),
-        // ]);
+        ]);
 
-        // return back()->with('status', 'password-updated');
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+        session()->flash('message','Password Updated Successfully');
+        return redirect()->back();
+      
     }
 }

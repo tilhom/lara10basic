@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/change/password', [ProfileController::class, 'change_password'])->name('profile.password');
+    Route::post('/update/password', [ProfileController::class, 'update_password'])->name('update.password');
 });
 
 require __DIR__.'/auth.php';
