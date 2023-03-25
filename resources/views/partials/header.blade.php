@@ -369,7 +369,7 @@
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="rounded-circle header-profile-user" 
-                                    src="{{ (!empty($user->profile_image))? url('upload/admin_images/'.$user->profile_image):url('upload/no_image.jpg') }}"
+                                src="{{ (!empty(request()->user()->profile_image))? Storage::url(request()->user()->profile_image):url('upload/no_image.jpg') }}"
                                     alt="Header Avatar">
                                 <span class="d-none d-xl-inline-block ms-1">Julia</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

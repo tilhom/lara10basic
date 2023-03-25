@@ -37,15 +37,17 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function store(ProfileStoreRequest $request){
+    public function store(ProfileStoreRequest $request)
+    {
         $request->user()->fill($request->validated());
 
-        if ($request->file('profile_image')) {
-           $file = $request->file('profile_image');
+        // $file = $request->file('profile_image');
 
-           $filename = date('YmdHi').$file->getClientOriginalName();
-           $file->move(public_path('upload/admin_images'),$filename);
-           $request->user()->profile_image = $filename;
+        // $filename = date('YmdHi').$file->getClientOriginalName();
+        // $file->move(public_path('upload/admin_images'),$filename);
+        if ($request->file('profile_image')) {
+            $filename = $request->file('profile_image')->store('admin_images', 'public');
+            $request->user()->profile_image = $filename;
         }
 
         $request->user()->save();
@@ -53,15 +55,14 @@ class ProfileController extends Controller
         // return redirect()->route('profile.view');
 
         $notification = array(
-            'message' => 'Admin Profile Updated Successfully', 
+            'message' => 'Admin Profile Updated Successfully',
             'alert-type' => 'info'
         );
 
         return redirect()->route('profile.view')->with($notification);
+    } // End Method
 
-    }// End Method
 
-   
     /**
      * Update the user's profile information.
      */
@@ -99,23 +100,24 @@ class ProfileController extends Controller
         return Redirect::to('/login');
     }
 
-    public function change_password(){
+    public function change_password()
+    {
 
         return view('profile.change_password');
-
-    }// End Method
+    } // End Method
 
     public function update_password(Request $request)
     {
-        // $validated = $request->validateWithBag('updatePassword', [
-        //     'current_password' => ['required', 'current_password'],
-        //     'password' => ['required', Password::defaults(), 'confirmed'],
-        // ]);
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
 
-        // $request->user()->update([
-        //     'password' => Hash::make($validated['password']),
-        // ]);
+        ]);
 
-        // return back()->with('status', 'password-updated');
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+        session()->flash('message', 'Password Updated Successfully');
+        return redirect()->back();
     }
 }

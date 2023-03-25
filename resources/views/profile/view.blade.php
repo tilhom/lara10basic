@@ -10,7 +10,7 @@
         <div class="card"><br><br>
             <center>
             <img class="rounded-circle avatar-xl" 
-            src="{{ (!empty($user->profile_image))? url('upload/admin_images/'.$user->profile_image):url('upload/no_image.jpg') }}" 
+            src="{{ (!empty($user->profile_image))? asset('storage/'.$user->profile_image):url('upload/no_image.jpg') }}"
             alt="Card image cap">
             </center>
 
