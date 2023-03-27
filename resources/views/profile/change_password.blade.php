@@ -21,7 +21,7 @@
             
             <form method="post" action="{{ route('update.password') }}" >
                 @csrf
-
+                @method('put')
             <div class="row mb-3">
                 <label for="example-text-input" class="col-sm-2 col-form-label">Old Password</label>
                 <div class="col-sm-10">
