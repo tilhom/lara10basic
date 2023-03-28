@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/change/password', [ProfileController::class, 'change_password'])->name('profile.password');
     Route::put('/update/password', [ProfileController::class, 'update_password'])->name('update.password');
+    Route::resource('categories',CategoryController::class);
 });
 
 require __DIR__.'/auth.php';
