@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Post extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    
+
     /**
-     * Get the comments for the blog post.
+     * Get the post that owns the comment.
      */
-    public function posts()
+    public function category()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsTo(Category::class);
     }
 }
